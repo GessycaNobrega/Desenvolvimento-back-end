@@ -13,3 +13,18 @@
 		<numero>111.111-11</numero>
     </pessoa>
 </correntistas>
+
+<!--- Primeira linha: Nesta linha, temos a declaração XML, responsável por especificar a versão e por informar ao navegador que se trata de um arquivo XML. Aqui também é definido o charset do documento.
+
+
+Segunda linha: Nesta linha, representado pela tag <correntistas>, temos o nó principal — ou nó raiz — do documento.
+
+
+Terceira linha: Nesta linha, temos um comentário. Repare que os comentários em um documento XML são iguais aos usados em HTML.
+
+Quarta linha: Nesta linha, temos o primeiro elemento filho do nó raiz, o elemento <pessoa>.
+
+Quinta, sexta e sétima linhas: Nestas linhas, temos os elementos filhos do elemento <pessoa>.
+
+Linhas seguintes: Nestas linhas, temos outro elemento <pessoa> e seus respectivos elementos filhos.
+-->
