@@ -2,7 +2,7 @@
 <correntistas>
 <!-- Nesse documento há dados de duas 'pessoas' -->
     <pessoa> 
-		<tipo>física<</tipo>
+		<tipo>física</tipo>
         <nome>José Maria</nome>
         <numero>000.000-00</numero>
     </pessoa>
