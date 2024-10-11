@@ -1,0 +1,20 @@
+{
+	"correntistas": {
+			"conta":[
+				{
+					"agencia": "0123-4",
+					"tipo": "física",
+					"nome": "José Maria",
+					"numero": "000.000-00"
+				},
+				{
+					"agencia": "5678-9",
+					"tipo": "jurídica",
+					"nome": "José Maria SA",
+					"numero": "111.111-11"
+				}
+			]
+	}
+}
+
+// O código visto também pode ser chamado de texto ou string JSON. Os dados após as chaves “agencia”, “tipo”, “nome” e “numero” são os valores JSON. O par chave: valor — como “agencia”: “0123-4” — é chamado de objeto JSON. A chave “conta” é um array.
