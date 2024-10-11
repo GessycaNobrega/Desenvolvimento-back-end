@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<nota_fical>
+<cabeçalho>
+<UF>PB</UF>
+<descrição_operação>Venda</descrição_operação>
+<número_serie>123456</número_serie>
+<data_operação>2024-10-11</data_operação>
+</cabeçalho>
+<emitente>
+<CNPJ>07.048.617/0001-26</CNPJ>
+<nome>Gessyca Medeiros</nome>
+<nome_fantasia>Estácio</nome_fantasia>
+<inscrição_estadual>123456789</inscrição_estadual>
+</emitente>
+<destinatário>
+<CNPJ>07.048.617/0001-25</CNPJ>
+<nome>Rita Medeiros</nome>
+<e-mail>rita123@gmail.com</e-mail>
+<endereço>
+<logradouro>Rua Amauri Bandeira</logradouro>
+<Número>05</Número>
+<Bairro>Centro</Bairro>
+<Municipio>Poço fundo</Municipio>
+<UF>PB</UF>
+<CEP>58641000</CEP>
+<País>Brasil</País>
+<Telefone>83952641521</Telefone>
+</endereço>
+</destinatário>
+<itens>
+<item ordem="1">
+<produto>Produto 1</produto>
+<quantidade>1</quantidade>
+<valor>100.00</valor>
+</item>
+<item ordem="2">
+<produto>Produto 2</produto>
+<quantidade>2</quantidade>
+<valor>50.00</valor>
+</item>
+<item ordem="3">
+<produto>Produto 3</produto>
+<quantidade>5</quantidade>
+<valor>5.00</valor>
+</item>
+</itens>
+</nota_fical>
