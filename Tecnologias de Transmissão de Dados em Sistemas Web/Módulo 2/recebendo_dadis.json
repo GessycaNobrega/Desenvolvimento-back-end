@@ -1,0 +1,11 @@
+//Neste exemplo, será criado um texto JSON, que será convertido em um objeto Javascript e então atribuído a um elemento HTML. Esse exemplo simula a situação em que, por meio de uma requisição AJAX, ou outro tipo de requisição, recebemos como retorno um texto JSON e precisamos manipulá-lo para acessar e utilizar seus dados.
+
+
+//Representa um texto JSON (que poderia ter sido recebido de uma requisição, por ex)
+var textoJson   = '{"agencia": "5678-9", "tipo": "física", "nome": "Maria José", "numero": "222.222-22"}';
+
+//Converte o texto JSON em um objeto Javascript
+var objtoJS = JSON.parse(textoJson);
+
+//Exibe na tag html com id=resultado os dados da conta
+document.getElementById("resultado").innerHTML = 'Agência: ' + objtoJS.agencia + ' Tipo: ' + objtoJS.tipo + ' Nome: ' + objtoJS.nome + ' Número: ' + objtoJS.numero;
