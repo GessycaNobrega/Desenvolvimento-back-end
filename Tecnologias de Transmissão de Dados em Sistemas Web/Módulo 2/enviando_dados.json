@@ -1,0 +1,10 @@
+//Cria um objeto Javacript
+var objtoJS   = {agencia: "5678-9", tipo: "física", nome: "Maria José", numero: "222.222-22"};
+
+//Converte o objeto Javascript em texto JSON
+var textoJson = JSON.stringify(objtoJS);
+
+//Redireciona a página para o endereço especificado, passando, via GET, o texto JSON
+window.location = "processa/json/?conta=" + textoJson;
+
+//Neste exemplo, é criado um objeto Javascript, que depois é convertido em texto JSON para ser enviado para um servidor remoto, onde poderá ser processado por uma linguagem server side, como Java, PHP
