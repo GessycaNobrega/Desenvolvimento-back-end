@@ -1,0 +1,54 @@
+{
+    "NF eletrônica": {
+        "cabeçalho":{
+            "UF": "PB",
+            "Descrição da operação": "Venda",
+            "número de série": 123456,
+            "número da nota fiscal":258972,
+            "data e hora": 2024101614
+         },
+
+         "Emitente": {
+            "CNPJ":5245495551.58,
+            "nome": "João Araújo",
+            "nome fantasia": "Magia",
+            "Inscrição estadual": 63254
+         },
+
+         "Destinatário":{
+            "CNPJ": 544554654515,
+            "nome": "Armando Pinto",
+            "email": "armando.pinto@gmail.com",
+            "endereço":{
+                "logradouro": "Rua Manuel Gomes",
+                "número": 49,
+                "bairro": "Santo Onofre",
+                "município": "São José do Rio Seco",
+                "UF": "PB",
+                "CEP": 58695,
+                "país": "Brasil",
+                "telefone": 5698752015
+            }
+         },
+
+         "Item":[
+            {
+                "produto":"Arroz",
+                "valor": 10.00,
+                "quantidade": 2
+            },
+
+            {
+              "produto":"Feijão",
+              "valor": 20.00,
+              "quantidade": 2  
+            }
+         ],
+
+         "Rodapé":{
+            "valor total": 60.00,
+            "ICMS": 0
+         }
+
+    }
+}
