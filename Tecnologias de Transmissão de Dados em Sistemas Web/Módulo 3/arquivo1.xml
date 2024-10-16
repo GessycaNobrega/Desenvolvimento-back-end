@@ -1,0 +1,141 @@
+<!--Esse código é um exemplo de como utilizar JavaScript e XML para realizar uma requisição AJAX e exibir os dados em uma tabela HTML. Ele lê informações de um arquivo XML que contém detalhes de produtos e os exibe em uma tabela de forma dinâmica-->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<Products>
+    <Product>
+        <Product_ID>7631</Product_ID>
+        <SKU>HEH-9133</SKU>
+        <Name>On Cloud Nine Pillow</Name>
+        <Product_URL>https://www.domain.com/product/heh-9133</Product_URL>
+        <Price>24.99</Price>
+        <Retail_Price>24.99</Retail_Price>
+        <Thumbnail_URL>https://www.domain.com/images/heh-9133_600x600.png</Thumbnail_URL>
+        <Search_Keywords>lorem, ipsum, dolor, ...</Search_Keywords>
+        <Description>Sociosqu facilisis duis ...</Description>
+        <Category>Home>Home Decor>Pillows|Back In Stock</Category>
+        <Category_ID>298|511</Category_ID>
+        <Brand>FabDecor</Brand>
+        <Child_SKU></Child_SKU>
+        <Child_Price></Child_Price>
+        <Color>White</Color>
+        <Color_Family>White</Color_Family>
+        <Color_Swatches></Color_Swatches>
+        <Size></Size>
+        <Shoe_Size></Shoe_Size>
+        <Pants_Size></Pants_Size>
+        <Occassion></Occassion>
+        <Season></Season>
+        <Badges></Badges>
+        <Rating_Avg>4.2</Rating_Avg>
+        <Rating_Count>8</Rating_Count>
+        <Inventory_Count>21</Inventory_Count>
+        <Date_Created>2018-03-03 17:41:13</Date_Created>
+    </Product>
+    <!-- No arquivo original há mais produtos no arquivo XML -->
+    <!--Este arquivo XML contém informações de produtos, onde cada produto é representado pela tag <Product>. As informações de cada produto são armazenadas em tags como <Product_ID>, <Name>, <Price>, entre outras.-->
+</Products>
+<!DOCTYPE html>
+<html>
+<head>
+       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+       <title>Requisições AJAX com XML</title>
+       <style type="text/css">
+              table {border-collapse: collapse;}
+              th, td {padding: 15px;text-align: left;}
+              tr:nth-child(even) {background-color: #f2f2f2;}
+       </style>
+</head>
+<body>
+<div id="resultado"></div>
+
+<!--Aqui, definimos o estilo para a tabela que será gerada, como a colapsação das bordas, o preenchimento e a coloração alternada das linhas para melhorar a legibilidade. O <div id="resultado"></div> é onde os dados processados serão exibidos.-->
+
+
+<script type="text/javascript">
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) { //Passando o resultado da requisição (o conteúdo     em XML) para a função manipulaXML
+            manipulaXML(this);
+    }
+};
+xhttp.open("GET", "produto.xml", true);
+xhttp.send();
+
+<!--XMLHttpRequest: Criamos um objeto XMLHttpRequest para realizar uma requisição ao arquivo produto.xml.
+
+onreadystatechange: Esta função é chamada sempre que o estado da requisição muda. Verificamos se readyState é 4 (requisição concluída) e status é 200 (requisição bem-sucedida).
+
+open e send: A função open define o tipo de requisição (GET) e o arquivo a ser acessado (produto.xml), e send envia a requisição.-->
+
+/*
+Esta função recebe o xml resultado da requisição AJAX.
+Após ler o conteúdo, faz o parse e inclui o conteúdo no elemento html de id #resultado
+*/
+function manipulaXML(xml) {
+    //o objeto responseXML trata o resultado de uma requisição AJAX no formato XML
+        var xmlDoc = xml.responseXML;
+
+        //Criando uma tabela para armazenar os dados e exibi-los na página
+        var table = "<table>";
+        table += '<tr>';
+
+         //Armazena o primeiro no Product
+         var primeiroNoProduct = xmlDoc.getElementsByTagName("Product")[0];
+         //Armazena os nós filhos do primeiro nó Product
+         var nosFilhosNoProduct = primeiroNoProduct.childNodes;
+
+         for (var j = 0; j < nosFilhosNoProduct.length; j++) {
+              var noFilho = nosFilhosNoProduct[j];
+              //Como os nós filhos também contém nós relacionados aos espaços em branco,
+              //  é preciso tratar esses nós para coletar apenas as tags válidas, com nos nomes dos               filhos
+              if (noFilho.nodeType === 1){
+                  //Armazenando os nomes dos nós para serem usados como cabeçalho da tabela HTML
+                  table += '<th>'+noFilho.nodeName+'</th>';
+              }
+         }
+         table += '</tr>';
+
+         //Percorre todo o arquivo XML, coleta os valores dos nós
+         //  e os armazena como linhas e colunas da tabela HTML
+         //Armazena os nós Product
+         var nosProduct = xmlDoc.getElementsByTagName("Product");
+
+         for (var cont = 0; cont < nosProduct.length; cont++) {
+              var filhosNoProduct = nosProduct[cont].childNodes;
+              table += '<tr>';
+              for (var contFilhos = 0; contFilhos < filhosNoProduct.length; contFilhos++) {
+                  if (filhosNoProduct[contFilhos].nodeType === 1){
+                      table += (filhosNoProduct[contFilhos].firstChild) ?                      '<td>'+filhosNoProduct[contFilhos].firstChild.nodeValue+'</td>' :
+'<td>null</td>';
+               }
+          }
+          table += '</tr>';
+       }
+
+       table += "</table>";
+
+       document.getElementById("resultado").innerHTML = table;
+}
+
+<!--manipulaXML: Função que recebe o XML como argumento e processa os dados
+responseXML: Contém o documento XML retornado pela requisição. 
+
+Criando a Tabela: Iniciamos a tabela HTML e adicionamos uma linha de cabeçalho usando as tags dos filhos do primeiro nó <Product> para obter os nomes das colunas.
+
+getElementsByTagName: Utilizado para pegar os elementos <Product>.
+
+Construindo Linhas da Tabela: Iteramos sobre todos os produtos e os seus nós filhos para construir as linhas e colunas da tabela, mostrando os valores de cada atributo
+
+nodeType === 1: Filtra apenas os elementos do XML, ignorando nós de texto (espaços em branco).
+
+firstChild.nodeValue: Obtém o valor do nó filho, que representa o conteúdo da tag XML
+
+
+Resumo do Processo:
+Lê o arquivo XML contendo os produtos usando uma requisição AJAX.
+Parseia o XML para obter os dados e monta uma tabela.
+Exibe a tabela com os dados dos produtos no HTML.-->
+
+</script>
+</body>
+</html>
