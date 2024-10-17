@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requisições Ajax</title>
+</head>
+<body>
+    <table id="container"></table>
+</body>
+<script type="text/javascript">
+
+    // Assim que a página carregar eu quero que o método loadXmlDoc(); seja chamado. Esse método vai consumir o xml, vai recuperar o xml, e depois de recuperar, vai fazer o parser, utilizando uma biblioteca JS, para então percorrer a árvore DOM do XML, pegar alguns dos dados e exibir na tabela: 
+
+    window.onload = (event) => {
+        loadXmlDoc();
+    },
+    
+    function loadXmlDoc() {
+    // A requisição ajax é definida aqui dentro: var xhttp = new XMLHttpRequest();
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            //A requisição sendo realizada com sucesso, pega o conteúdo do retorno pelo XMLHttpRequest, e passa para um novo método: parseXML: 
+            parseXML(this);
+        }
+    };
+    xhttp.open("GET", "cd_catalog.xml",true);
+    xhttp.send();
+}
+
+
+</html>
