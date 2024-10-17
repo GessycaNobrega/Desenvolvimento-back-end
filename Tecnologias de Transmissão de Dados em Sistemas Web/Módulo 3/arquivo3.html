@@ -36,6 +36,15 @@ function parseXML(XML) {
     var table="<tr><th>Title</th><th>Artist</th></tr>";
     var x = xmlDoc.getElementeByTagName("CD");
     for (i = 0; i<x.length; i++) {
+        table += "<tr><td>" +
+            x[i].get.ElementsByTagName("Title")[0].childNodes[0].nodeValue+
+            "</td><td>" +
+            x[i].get.ElementsByTagName("Artist")[0].childNodes[0].nodeValue+
+                "</td></tr>";
+    }
 
+    document.getElementById("container").innerHTML = table;
 
+}
+</script>
 </html>
