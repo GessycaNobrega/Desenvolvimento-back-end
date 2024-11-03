@@ -1,0 +1,97 @@
+//Podemos observar um arquivo de configuração utilizado pelo framework, no qual é preparado o middleware para a conexão com o Derby Database
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context-4.3.xsd
+http://www.springframework.org/schema/tx
+http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+  <context:component-scan base-package="exemplo01" />
+  <context:annotation-config />
+
+  <bean id="dataSource" class=
+  "org.springframework.jdbc.datasource.DriverManagerDataSource">
+     <property name="driverClassName"
+               value="org.apache.derby.jdbc.ClientDriver" />
+     <property name="url" 
+               value="jdbc:derby://localhost:1527/exemplo001" />
+     <property name="username" value="exemplo001" />
+     <property name="password" value="exemplo001" />
+  </bean>
+	
+  <bean id="entityManagerFactory" class=
+  "org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" 
+   p:packagesToScan="exemplo01.model" p:dataSource-ref="dataSource">
+     <property name="jpaPropertyMap">
+        <map><entry key="eclipselink.weaving" value="false"/></map>
+     </property>
+     <property name="jpaVendorAdapter">
+     <bean class=
+     "org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
+        <property name="generateDdl" value="true" />
+        <property name="showSql" value="true" />
+     </bean>
+     </property>
+  </bean>
+
+  <bean id="transactionManager" class=
+  "org.springframework.orm.jpa.JpaTransactionManager">
+     <property name="entityManagerFactory" 
+               ref="entityManagerFactory"/>
+  </bean>
+  <tx:annotation-driven transaction-manager="transactionManager"/>    
+</beans>
+
+
+//Aqui, temos a configuração de um gestor de persistência. É necessário dar atenção ao uso de namespaces. Após incluir todos os namespaces necessários, há as configurações. A mais simples é o contexto, com a definição do pacote a partir do qual os beans (componentes) serão pesquisados. Adotamos o valor exemplo01.
+
+//A conexão com o banco de dados tem como base a classe DriverManagerDataSource. As propriedades necessárias são o driver do Derby, a URL de conexão, usuário e senha. A conexão é utilizada pela fábrica de gerenciadores, do tipo LocalContainerEntityManagerFatoryBean, fazendo a ponte com o driver JPA por meio da classe EclipseLinkJpaVendorAdapter. As entidades deverão ser criadas no pacote exemplo01.model, bem como os elementos que controlam a persistência.
+
+
+//Por trabalhar com o JPA, o controle transacional será baseado na classe JpaTransactionManager.
+
+
+//Observe que a camada Model será definida no pacote exemplo01.model, onde as entidades são criadas com o mapeamento objeto-relacional do JPA.
+
+//Na entidade Produto, a anotação Entity garante a persistência em uma tabela de mesmo nome, e Id é o campo chave primária. Veja:
+
+@Entity
+public class Produto {
+   @Id
+   public Integer codigo;
+   public String nome;
+   public Integer quantidade;
+	
+   public Produto() {}
+   public Produto(Integer codigo, String nome, Integer quantidade){
+      this.codigo = codigo;
+	this.nome = nome;
+	this.quantidade = quantidade;
+   }
+}
+
+//Implementaremos a persistência no padrão DAO (Data Access Object), segundo duas estratégias possíveis: a primeira seria uma classe definida como um bean, com a implementação dos métodos necessários, e a segunda utiliza uma interface JpaRepository, delegando para o Spring a criação desses métodos.
+
+Tendo como base a primeira estratégia, os componentes de persistência são classes anotadas, que utilizam o middleware de forma automática, como na classe ProdutoConcreteDAO, criada no pacote exemplo01.model. Veja:
+
+
+@Component
+public class ProdutoConcreteDAO {
+   @PersistenceContext
+   private EntityManager em;
+
+   public void save(Produto produto) {
+	em.persist(produto);
+   }
+   public List<Produto> findAll() {
+      return em.createQuery("SELECT p FROM Produto p")
+               .getResultList();
+   }
+}
