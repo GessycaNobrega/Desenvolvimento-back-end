@@ -95,3 +95,53 @@ public class ProdutoConcreteDAO {
                .getResultList();
    }
 }
+
+//Enquanto a anotação Component coloca a classe no contexto do Spring, ou seja, transforma-a em um bean, a anotação PersistenceContext obtém o gerenciador de entidades por meio da fábrica configurada anteriormente. O gerenciador será utilizado para consultar as entidades ou manipulá-las, como nos métodos findAll e persist.
+
+//Na segunda estratégia, definimos uma interface de persistência e deixamos o Spring cuidar do resto. A nova abordagem diminui o esforço de programação, já que as ações comuns são criadas automaticamente.
+
+//A interface ProdutoDAO demonstra a simplicidade do processo:
+
+
+public interface ProdutoDAO 
+       extends JpaRepository<Produto, Integer> {
+}
+
+
+//Nossa interface descende de JpaRepository, tendo como parâmetros de tipo a classe Produto, que representa a entidade, e a classe Integer, para a chave primária, sendo criada no pacote exemplo01.model.
+
+
+@Component
+public class GerenciadorProduto {
+   @Autowired
+   private ProdutoDAO produtoDAO;
+    
+   @Transactional
+   public void add(Produto produto){
+      produtoDAO.persist(produto);
+   }
+    
+   @Transactional(readOnly = true)
+   public List<Produto> findAll(){
+      return produtoDAO.findAll();                
+   }
+}
+
+//A classe GerenciadorProduto pertence à camada Controller, no pacote exemplo01.controller. Utilizando a anotação Autowired, configuramos automaticamente nosso DAO. Transactional define uma transação gerenciada pelo contexto, podendo ser configurada como somente leitura, quando não modificamos valores.
+
+
+// crie a classe principal, representada por:
+
+public class ExemploSpring001 {
+  public static void main(String[] args) {
+    ClassPathXmlApplicationContext ctx = 
+        new ClassPathXmlApplicationContext("classpath:/spring.xml");
+    GerenciadorProduto gerenciador = 
+        ctx.getBean(GerenciadorProduto.class);
+    gerenciador.add(new Produto("A001","Caneta", 100));
+    gerenciador.add(new Produto("A002","Lapis", 230));
+    for(Produto p: gerenciador.findAll())
+        System.out.println(p.getNome());
+    ctx.close();
+  }
+}
